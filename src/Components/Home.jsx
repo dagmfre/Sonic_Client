@@ -4,16 +4,15 @@ import Sidebar from "./Sidebar";
 import axios from "axios";
 
 export default function Home() {
-  const [bestArtistsIds, setBestArtistsIds] = useState([]);
-  const [bestArtistsTracks, setBestArtistsTracks] = useState([]);
+  const [topArtists, setTopArtists] = useState([]);
+  // const [topAlbumCoverImages, setTopArtistsTracks] = useState([]);
 
   useEffect(() => {
     const fetchArtistsIds = async () => {
       try {
-        const response = await axios.get(
-          "https://api.deezer.com/genre/0/artists"
-        );
-        response.data.map((artistData) => setBestArtistsIds(artistData.id));
+        const response = await axios.get("http://localhost:3001/api-artists");
+        // console.log(response.data);
+        setTopArtists(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -21,17 +20,28 @@ export default function Home() {
 
     fetchArtistsIds();
   }, []);
-  console.log(bestArtistsIds);
+
   return (
     <div className="home">
       <Sidebar />
       <div className="home-main">
         <Header />
-        <div className="best-album">
-          <img src="" alt="" className="best-album-image" />
-          <div className="best-album-track-cont">
-            {/* https://api.deezer.com/genre/0/artists */}
-          </div>
+        <div className="top-album-cont">
+          {topArtists &&
+            topArtists.map((artist, index) => (
+              <div className="top-album" key={index}>
+                <img
+                  src={`${artist.data[0].album.cover_medium}`}
+                  alt=""
+                  className="top-album-image"
+                />
+                {artist.data.map((artistTrack) => (
+                  <div className="top-album-track-cont">
+                    <audio controls src={artistTrack.preview}></audio>
+                  </div>
+                ))}
+              </div>
+            ))} 
         </div>
       </div>
     </div>
