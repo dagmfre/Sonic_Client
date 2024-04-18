@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./Home";
+import Home from "./Home/Home";
 import { Global, css } from "@emotion/react";
 
 // Define global styles
