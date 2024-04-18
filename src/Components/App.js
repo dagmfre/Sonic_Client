@@ -5,7 +5,7 @@ import { Global, css } from "@emotion/react";
 // Define global styles
 const globalStyles = css`
   body {
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-family: sans-serif;
     margin: 0;
     padding: 0;
   }
