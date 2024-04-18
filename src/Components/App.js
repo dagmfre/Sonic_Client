@@ -8,6 +8,7 @@ const globalStyles = css`
     font-family: sans-serif;
     margin: 0;
     padding: 0;
+    color: #303538;
   }
 `;
 
