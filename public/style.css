@@ -1,0 +1,86 @@
+/* .inactive {
+  display: none;
+}
+.active {
+  display: grid;
+  animation: fadeVisibility 1s;
+  img {
+    grid-area: 1 / 1;
+    z-index: 1;
+  }
+  i {
+    cursor: pointer;
+    grid-area: 1 / 1;
+    z-index: 10;
+    font-size: 1.7rem;
+    align-self: center;
+    justify-self: center;
+    background-color: white;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+@keyframes fadeVisibility {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+} */
+.slide___3-Nqo {
+  max-height: max-content;
+  height: auto !important;
+  padding-bottom: 0 !important;
+}
+.slideInner___2mfX9 {
+  position: relative !important;
+}
+.focusRing___1airF.carousel__slide-focus-ring {
+  outline: none !important;
+}
+iframe {
+  display: none;
+}
+.rm-audio-player-provider {
+  z-index: 1000;
+}
+.react-jinke-music-player-main {
+  z-index: 1000;
+  position: relative;
+}
+.music-player-panel {
+  color: red;
+}
+#bd .react-jinke-music-player-main.light-theme .rc-switch-checked {
+  background-color: #4d85fe !important;
+}
+
+#bd .react-jinke-music-player-main.light-theme .music-player-panel {
+  box-shadow: 0 -3px 5px #817b7b59 !important;
+  color: black !important;
+}
+
+#bd .react-jinke-music-player-main.light-theme svg {
+  color: #4d85fe !important;
+}
+
+.react-jinke-music-player-main
+  .music-player-panel
+  .panel-content
+  .rc-slider-handle,
+.react-jinke-music-player-main
+  .music-player-panel
+  .panel-content
+  .rc-slider-track {
+  background-color: #4d85fe !important;
+}
+
+#bd .loop-btn,
+#bd .audio-lists-btn {
+  display: none !important;
+}

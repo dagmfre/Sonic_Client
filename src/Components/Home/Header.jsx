@@ -16,10 +16,10 @@ const searchCont = css`
   max-width: 390px;
   width: 100%;
   flex: 1;
-    border: 1px solid #484848a3;
-    padding: revert-layer;
-    padding-left: 10px;
-    gap: 10px;
+  border: 1px solid #484848a3;
+  padding: revert-layer;
+  padding-left: 10px;
+  gap: 10px;
 `;
 
 const uploadCont = css`
@@ -28,9 +28,10 @@ const uploadCont = css`
   max-width: 390px;
   width: 100%;
   border: 1px solid #484848a3;
-    padding: 0 10px;
-    gap: 10px;
-    max-width: max-content;
+  padding: 0 10px;
+  gap: 10px;
+  max-width: max-content;
+  cursor: pointer;
 `;
 
 const accountCont = css`
@@ -46,11 +47,11 @@ const userPic = css`
 
 const userNameCont = css`
   margin: 0 1rem 0 1rem;
-  P:nth-child(1) {
+  P:nth-of-type(1) {
     font-size: 1.1rem;
     font-weight: 600;
   }
-  P:nth-child(2) {
+  P:nth-of-type(2) {
     font-size: 0.8rem;
     margin-top: 4px;
   }

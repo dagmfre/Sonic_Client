@@ -5,13 +5,13 @@ export default function Sidebar() {
   const sidebar = css`
     display: flex;
     flex-direction: column;
-    position: fixed;
     z-index: 1000;
     height: 100vh;
-    max-width: 230px;
-    width: 100%;
+    flex: 15%;
     background-color: #f8f9fa;
     padding: 1.5rem 0 0 3rem;
+    position: sticky;
+    top: 0;
   `;
 
   const logoCont = css`
@@ -42,7 +42,7 @@ export default function Sidebar() {
       border-radius: 5px;
       max-width: max-content;
       &:hover {
-        background: #455fcfd1;
+        background: #4d85fe;
         transition: 0.3s;
         color: white;
         > * {
