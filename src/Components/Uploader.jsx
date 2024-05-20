@@ -184,7 +184,7 @@ const Uploader = () => {
     font-weight: 700;
   `;
 
-  function cutFirstSevenCharacters(str,) {
+  function cutFirstSevenCharacters(str) {
     return str.slice(8);
   }
 
@@ -485,19 +485,31 @@ const Uploader = () => {
   const handleDotMenuClick = (index) => {
     setOpenedMenuIndex(openedMenuIndex === index ? null : index);
   };
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const successfulMsgRef = useRef(null);
+  const errMsgRef = useRef(null);
+
+  useEffect(() => {
+    // Check if the paragraph element exists
+    if (successfulMsgRef.current || errMsgRef.current) {
+      setShouldLoad(false);
+    } else {
+      setShouldLoad(true);
+    }
+  }, []);
 
   return (
     <div css={uploadCont}>
       <div>
         <Header />
         {successfulMsg ? (
-          <div css={successMsgCont}>
+          <div ref={successfulMsgRef} css={successMsgCont}>
             <img src="check.png" alt="" />
             <p>{successfulMsg}</p>
           </div>
         ) : null}
         {errMsg ? (
-          <div css={errMsgCont}>
+          <div ref={errMsgRef} css={errMsgCont}>
             <i class="fa-solid fa-circle-xmark"></i>
             <p>{errMsg}</p>
           </div>
@@ -548,7 +560,10 @@ const Uploader = () => {
             type="submit"
             variant="contained"
           >
-            {isSubmitClicked && successfulMsg === "" && errMsg === "" ? (
+            {isSubmitClicked &&
+            successfulMsg === "" &&
+            shouldLoad &&
+            errMsg === "" ? (
               <p>loading...</p>
             ) : (
               "Post You Song"
