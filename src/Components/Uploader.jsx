@@ -193,7 +193,7 @@ const Uploader = () => {
 
   const fetchSongData = async () => {
     try {
-      const response = await fetch("https://sonic-server.vercel.app/api/songs");
+      const response = await fetch("https://sonic-api.onrender.com/api/songs");
       const data = await response.json();
       setMyLists(data);
       setFetchedImage(true);
@@ -205,7 +205,7 @@ const Uploader = () => {
   const handleDelete = async (title) => {
     try {
       const response = await axios.delete(
-        `https://sonic-server.vercel.app/api/songs/${title}`
+        `https://sonic-api.onrender.com/api/songs/${title}`
       );
       if (response.status === 200) {
         fetchSongData();
@@ -227,7 +227,7 @@ const Uploader = () => {
         const imageSrcs = await Promise.all(
           myLists.map(async (myList) => {
             const response = await fetch(
-              `https://sonic-server.vercel.app/uploads/${cutFirstSevenCharacters(
+              `https://sonic-api.onrender.com/uploads/${cutFirstSevenCharacters(
                 myList.imagePath
               )}`
             );
@@ -304,7 +304,7 @@ const Uploader = () => {
 
     try {
       const response = await axios.post(
-        "https://sonic-server.vercel.app/api/songs",
+        "https://sonic-api.onrender.com/api/songs",
         formData,
         {
           headers: {
@@ -575,10 +575,10 @@ const Uploader = () => {
                         name: mySong.title,
                         singer: mySong.singer,
                         albumName: "",
-                        cover: `https://sonic-server.vercel.app/uploads/${cutFirstSevenCharacters(
+                        cover: `https://sonic-api.onrender.com/uploads/${cutFirstSevenCharacters(
                           mySong.imagePath
                         )}`,
-                        musicSrc: `https://sonic-server.vercel.app/uploads/${cutFirstSevenCharacters(
+                        musicSrc: `https://sonic-api.onrender.com/uploads/${cutFirstSevenCharacters(
                           mySong.songPath
                         )}`,
                         duration: "4:00",
