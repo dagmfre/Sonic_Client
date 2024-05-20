@@ -10,13 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCurrentPlayingSong } from "./currentPlayingSlice";
 import "react-jinke-music-player/assets/index.css";
 import ReactJkMusicPlayer from "react-jinke-music-player";
-import { useNavigate } from "react-router-dom";
 
 const Uploader = () => {
   const [title, setTitle] = useState("");
   const [singer, setSinger] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [successfulMsg, setSuccessfulMsg] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -25,7 +23,8 @@ const Uploader = () => {
   const breakpoints = [1000];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
   const [openedMenuIndex, setOpenedMenuIndex] = useState(null);
-
+  const [isPostClicked, setIsPostClicked] = useState(false);
+  
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -274,15 +273,9 @@ const Uploader = () => {
 
   const handleSuccessTimeout = () => {
     setSuccessfulMsg("Song uploaded successfully");
+    setIsPostClicked(false);
     setTimeout(() => {
       setSuccessfulMsg("");
-    }, 3000);
-  };
-
-  const handleSubmitClicked = () => {
-    setIsSubmitClicked(true);
-    setTimeout(() => {
-      setIsSubmitClicked(false);
     }, 3000);
   };
 
@@ -485,31 +478,26 @@ const Uploader = () => {
   const handleDotMenuClick = (index) => {
     setOpenedMenuIndex(openedMenuIndex === index ? null : index);
   };
-  const [shouldLoad, setShouldLoad] = useState(false);
-  const successfulMsgRef = useRef(null);
-  const errMsgRef = useRef(null);
 
-  useEffect(() => {
-    // Check if the paragraph element exists
-    if (successfulMsgRef.current || errMsgRef.current) {
-      setShouldLoad(false);
-    } else {
-      setShouldLoad(true);
+  const postClickHandler = () => {
+    setIsPostClicked(true);
+    if (successfulMsg !== "") {
+      setIsPostClicked(false);
     }
-  }, []);
+  };
 
   return (
     <div css={uploadCont}>
       <div>
         <Header />
-        {successfulMsg ? (
-          <div ref={successfulMsgRef} css={successMsgCont}>
+        {successfulMsg !== "" ? (
+          <div css={successMsgCont}>
             <img src="check.png" alt="" />
             <p>{successfulMsg}</p>
           </div>
         ) : null}
-        {errMsg ? (
-          <div ref={errMsgRef} css={errMsgCont}>
+        {errMsg !== "" ? (
+          <div css={errMsgCont}>
             <i class="fa-solid fa-circle-xmark"></i>
             <p>{errMsg}</p>
           </div>
@@ -555,15 +543,8 @@ const Uploader = () => {
               <p>{truncateTrackName(selectedImage.name, 20)}</p>
             ) : null}
           </label>
-          <Button
-            onClick={handleSubmitClicked}
-            type="submit"
-            variant="contained"
-          >
-            {isSubmitClicked &&
-            successfulMsg === "" &&
-            shouldLoad &&
-            errMsg === "" ? (
+          <Button onClick={postClickHandler} type="submit" variant="contained">
+            {isPostClicked && (errMsg || successfulMsg) === "" ? (
               <p>loading...</p>
             ) : (
               "Post You Song"
