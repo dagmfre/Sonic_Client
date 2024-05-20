@@ -42,7 +42,7 @@ export default function Artist() {
   useEffect(() => {
     const fetchArtists = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/artists");
+        const response = await axios.get("https://sonic-server.vercel.app/api/artists");
         setArtists(response.data.reverse());
         setIsLoading(false)
       } catch (error) {

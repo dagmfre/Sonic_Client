@@ -25,8 +25,6 @@ const Uploader = () => {
   const breakpoints = [1000];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
   const [openedMenuIndex, setOpenedMenuIndex] = useState(null);
-  const navigate = useNavigate;
-  const [shouldNavigate, setShouldNavigate] = useState(false);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -186,7 +184,7 @@ const Uploader = () => {
     font-weight: 700;
   `;
 
-  function cutFirstSevenCharacters(str) {
+  function cutFirstSevenCharacters(str,) {
     return str.slice(8);
   }
 
@@ -195,7 +193,7 @@ const Uploader = () => {
 
   const fetchSongData = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/songs");
+      const response = await fetch("https://sonic-server.vercel.app/api/songs");
       const data = await response.json();
       setMyLists(data);
       setFetchedImage(true);
@@ -207,7 +205,7 @@ const Uploader = () => {
   const handleDelete = async (title) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3001/api/songs/${title}`
+        `https://sonic-server.vercel.app/api/songs/${title}`
       );
       if (response.status === 200) {
         fetchSongData();
@@ -229,7 +227,7 @@ const Uploader = () => {
         const imageSrcs = await Promise.all(
           myLists.map(async (myList) => {
             const response = await fetch(
-              `http://localhost:3001/uploads/${cutFirstSevenCharacters(
+              `https://sonic-server.vercel.app/uploads/${cutFirstSevenCharacters(
                 myList.imagePath
               )}`
             );
@@ -306,7 +304,7 @@ const Uploader = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/songs",
+        "https://sonic-server.vercel.app/api/songs",
         formData,
         {
           headers: {
@@ -577,10 +575,10 @@ const Uploader = () => {
                         name: mySong.title,
                         singer: mySong.singer,
                         albumName: "",
-                        cover: `http://localhost:3001/uploads/${cutFirstSevenCharacters(
+                        cover: `https://sonic-server.vercel.app/uploads/${cutFirstSevenCharacters(
                           mySong.imagePath
                         )}`,
-                        musicSrc: `http://localhost:3001/uploads/${cutFirstSevenCharacters(
+                        musicSrc: `https://sonic-server.vercel.app/uploads/${cutFirstSevenCharacters(
                           mySong.songPath
                         )}`,
                         duration: "4:00",
@@ -593,10 +591,10 @@ const Uploader = () => {
                       <i className="fa-solid fa-play"></i>
                     )}
                   </div>
-                  <h3>{truncateTrackName(mySong.title, 5)}</h3>
+                  <h3>{truncateTrackName(mySong.title, 15)}</h3>
                 </div>
                 <div>
-                  <p>{truncateTrackName(mySong.singer, 10)}</p>
+                  <p>{truncateTrackName(mySong.singer, 15)}</p>
                   <div css={deleteCont}>
                     <p onClick={() => handleDotMenuClick(index)}>...</p>
                     <p

@@ -225,7 +225,7 @@ export default function Tracks() {
   useEffect(() => {
     const fetchAlbumTracks = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/tracks");
+        const response = await axios.get("https://sonic-server.vercel.app/api/tracks");
         // Show all tracks if window width is 1200px or more
         setTopTracks(response.data?.reverse());
         setIsLoading1(false);

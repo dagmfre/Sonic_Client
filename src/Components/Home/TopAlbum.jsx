@@ -263,7 +263,7 @@ export default function TopAlbum() {
     const fetchArtistsIds = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/topArtists"
+          "https://sonic-server.vercel.app/api/topArtists"
         );
         if (response.data && Array.isArray(response.data)) {
           setTopArtists(response.data.reverse());
