@@ -1,14 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./Home/Home";
 import { Global, css } from "@emotion/react";
+import MyFavorite from "./MyFavorite";
+import Uploader from "./Uploader";
 
-// Define global styles
 const globalStyles = css`
   body {
-    font-family: sans-serif;
+    font-family: cursive, sans-serif;
     margin: 0;
     padding: 0;
     color: #303538;
+  }
+  html {
+    scroll-behavior: smooth;
   }
 `;
 
@@ -18,6 +22,8 @@ const App = () => {
       <Global styles={globalStyles} />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/favorites" element={<MyFavorite />} />
+        <Route path="/upload" element={<Uploader />} />
       </Routes>
     </>
   );
