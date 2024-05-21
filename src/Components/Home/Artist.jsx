@@ -1,12 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ArtistLoader from "../ArtistLoader";
-import axios from "axios";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchArtistRequest } from "../artistSlice";
 export default function Artist() {
-  const [artists, setArtists] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { artists, loading, error } = useSelector((state) => state.artists);
+
+  useEffect(() => {
+    dispatch(fetchArtistRequest());
+  }, [dispatch]);
 
   const artistsCont = css`
     display: grid;
@@ -39,41 +43,27 @@ export default function Artist() {
     }
   `;
 
-  useEffect(() => {
-    const fetchArtists = async () => {
-      try {
-        const response = await axios.get("https://sonic-api.onrender.com/api/artists");
-        setArtists(response.data.reverse());
-        setIsLoading(false)
-      } catch (error) {
-        console.error("Error fetching artists:", error);
-      }
-    };
-
-    fetchArtists();
-  }, []);
-
   return (
     <div id="artists">
-      {isLoading ? (
+      {loading && (
         <div css={loaderCont}>
           <ArtistLoader />
         </div>
-      ) : (
-        <div css={artistsCont}>
-          <h1>Top Artists</h1>
-          {artists.map((artist) => (
-            <div css={artist} key={artist.id}>
-              <h2>{artist.name}</h2>
-              <img
-                css={artistImg}
-                src={artist.picture_medium}
-                alt={artist.name}
-              />
-            </div>
-          ))}
-        </div>
       )}
+      {error && <p>Error: {error}</p>}
+      <div css={artistsCont}>
+        <h1>Top Artists</h1>
+        {artists.map((artist) => (
+          <div css={artist} key={artist.id}>
+            <h2>{artist.name}</h2>
+            <img
+              css={artistImg}
+              src={artist.picture_medium}
+              alt={artist.name}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -11,13 +11,15 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-// import createSagaMiddleware from "redux-saga";
-// import rootSaga from "./Components/sagas";
-// const sagaMiddleware = createSagaMiddleware();
+import createSagaMiddleware from "redux-saga";
+import artistSaga from "./Components/artistSaga";
+
+const sagaMiddleware = createSagaMiddleware();
+
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["currentPlayingSong", "menuClickedStatus"],
+  blacklist: ["currentPlayingSong", "menuClickedStatus", "artists"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -28,9 +30,9 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(sagaMiddleware),
 });
 
 const persistedStore = persistStore(store);
-
+sagaMiddleware.run(artistSaga);
 export { store, persistedStore };
