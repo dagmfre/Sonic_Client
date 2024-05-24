@@ -5,8 +5,6 @@ const MyLoader = (props) => (
     width={300}
     height={70}
     speed={2}
-    // backgroundColor={"#333"}
-    // foregroundColor={"#999"}
     viewBox="0 0 300 70"
     {...props}
   >
