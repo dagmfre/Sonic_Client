@@ -12,14 +12,14 @@ import {
   REGISTER,
 } from "redux-persist";
 import createSagaMiddleware from "redux-saga";
-import artistSaga from "./Components/artistSaga";
+import { rootSaga } from "./Components/rootSaga";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["currentPlayingSong", "menuClickedStatus", "artists"],
+  blacklist: ["currentPlayingSong", "menuClickedStatus", "artists", "topAlbum"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -34,5 +34,5 @@ const store = configureStore({
 });
 
 const persistedStore = persistStore(store);
-sagaMiddleware.run(artistSaga);
+sagaMiddleware.run(rootSaga);
 export { store, persistedStore };
