@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useState, useEffect, useRef } from "react";
 import { css } from "@emotion/react";
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { addCurrentPlayingSong } from "../currentPlayingSlice";
 import {
@@ -14,11 +13,10 @@ import {
 import Loader from "../Loader";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { addRemoveFavoriteSong } from "../favoriteListSlice";
+import { fetchTopAlbumRequest } from "../topAlbumSlice";
 
 export default function TopAlbum() {
   const dispatch = useDispatch();
-  const [topArtists, setTopArtists] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isGrabbing, setIsGrabbing] = useState(false);
 
   const handleMouseDown = () => {
@@ -259,32 +257,23 @@ export default function TopAlbum() {
     return [hour, minutes];
   };
 
-  useEffect(() => {
-    const fetchArtistsIds = async () => {
-      try {
-        const response = await axios.get(
-          "https://sonic-api.onrender.com/api/topArtists"
-        );
-        if (response.data && Array.isArray(response.data)) {
-          setTopArtists(response.data.reverse());
-          setIsLoading(false);
-        } else {
-          console.error("Invalid data received from server");
-        }
-      } catch (error) {
-        console.error("Error fetching artist data:", error);
-      }
-    };
-    fetchArtistsIds();
-  }, []);
+  const { album, loading, error } = useSelector((state) => state.topAlbum);
 
-  return (
+  useEffect(() => {
+    dispatch(fetchTopAlbumRequest());
+  }, [dispatch]);
+
+  return ( 
     <>
-      {isLoading ? (
+      {loading && (
         <div css={loaderCont}>
           <Loader />
         </div>
-      ) : (
+      )}
+
+      {error && <p>Error: {error}</p>}
+
+      {album && (
         <CarouselProvider
           naturalSlideWidth={100}
           naturalSlideHeight={125}
@@ -294,8 +283,8 @@ export default function TopAlbum() {
           interval={4000}
         >
           <Slider>
-            {topArtists &&
-              topArtists.map((artist, artistIndex) => (
+            {album &&
+              album.map((artist, artistIndex) => (
                 <Slide>
                   <div
                     key={artistIndex}

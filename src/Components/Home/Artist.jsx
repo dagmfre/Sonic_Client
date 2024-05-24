@@ -50,20 +50,24 @@ export default function Artist() {
           <ArtistLoader />
         </div>
       )}
+
       {error && <p>Error: {error}</p>}
-      <div css={artistsCont}>
-        <h1>Top Artists</h1>
-        {artists.map((artist) => (
-          <div css={artist} key={artist.id}>
-            <h2>{artist.name}</h2>
-            <img
-              css={artistImg}
-              src={artist.picture_medium}
-              alt={artist.name}
-            />
-          </div>
-        ))}
-      </div>
+
+      {artists && artists.length !== 0 && (
+        <div css={artistsCont}>
+          <h1>Top Artists</h1>
+          {artists.map((artist) => (
+            <div css={artist} key={artist.id}>
+              <h2>{artist.name}</h2>
+              <img
+                css={artistImg}
+                src={artist.picture_medium}
+                alt={artist.name}
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
