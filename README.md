@@ -5,7 +5,7 @@ A dynamic web application that fetches songs from the Deezer API, providing an e
 ![image](https://github.com/dagmfre/Sonic_Client/assets/96683816/90076adc-04c2-47e2-800a-8e3b718c81cb)
 
 ##  QUICK START
-👉 Live Demo🔗: [Nova-Cars Website](https://sonic-client.vercel.app)
+👉 Live Demo🔗: [Sonic](https://sonic-client.vercel.app/)
 
 ##  FEATURES
 - Top Albums: Browse and explore the latest and most popular albums.
