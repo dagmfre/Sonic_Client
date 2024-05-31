@@ -8,7 +8,7 @@ function* fetchTracksSaga() {
       axios.get,
       "https://sonic-api.onrender.com/api/tracks"
     );
-    yield put(fetchTracksSuccess(response.data?.reverse()));
+    yield put(fetchTracksSuccess(response.data));
   } catch (error) {
     yield put(fetchTracksFailure(error.message));
   }
