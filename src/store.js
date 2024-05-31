@@ -19,7 +19,13 @@ const sagaMiddleware = createSagaMiddleware();
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["currentPlayingSong", "menuClickedStatus", "artists", "topAlbum"],
+  blacklist: [
+    "currentPlayingSong",
+    "menuClickedStatus",
+    "artists",
+    "topAlbum",
+    "tracks",
+  ],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -28,7 +34,15 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [
+          FLUSH,
+          REHYDRATE,
+          PAUSE,
+          PERSIST,
+          PURGE,
+          REGISTER,
+          "userSong/postSongRequest",
+        ],
       },
     }).concat(sagaMiddleware),
 });
