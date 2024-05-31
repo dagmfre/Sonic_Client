@@ -3,6 +3,7 @@ import watchFetchArtist from "./artistSaga";
 import watchTopAlbum from "./topAlbumSaga";
 import watchFetchTracks from "./tracksSaga";
 import { watchSongUpload, watchDeleteSong } from "./userSongSaga";
+import { watchUserImages } from "./userImageSaga";
 
 export function* rootSaga() {
   yield all([
@@ -11,5 +12,6 @@ export function* rootSaga() {
     watchFetchTracks(),
     watchSongUpload(),
     watchDeleteSong(),
+    watchUserImages(),
   ]);
 }

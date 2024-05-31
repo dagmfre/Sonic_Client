@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios"; // For API calls
 import Header from "./Home/Header";
 import Sidebar from "./Home/Sidebar";
 import { TextField } from "@mui/material";
@@ -10,21 +9,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCurrentPlayingSong } from "./currentPlayingSlice";
 import "react-jinke-music-player/assets/index.css";
 import ReactJkMusicPlayer from "react-jinke-music-player";
+import { deleteSongRequest, postSongRequest } from "./userSongSlice";
+import { fetchUserImagesRequest } from "./userImageSlice";
 
 const Uploader = () => {
   const [title, setTitle] = useState("");
   const [singer, setSinger] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [successfulMsg, setSuccessfulMsg] = useState("");
-  const [errMsg, setErrMsg] = useState("");
   const [isPlayClicked, setIsPlayClicked] = useState(false);
   const dispatch = useDispatch();
   const breakpoints = [1000];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
   const [openedMenuIndex, setOpenedMenuIndex] = useState(null);
   const [isPostClicked, setIsPostClicked] = useState(false);
-  
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -150,6 +148,9 @@ const Uploader = () => {
       font-size: 1.2rem;
       font-family: cursive;
       margin-top: 1rem;
+      p {
+        margin: 0;
+      }
     }
   `;
 
@@ -183,72 +184,6 @@ const Uploader = () => {
     font-weight: 700;
   `;
 
-  function cutFirstSevenCharacters(str) {
-    return str.slice(8);
-  }
-
-  const [myLists, setMyLists] = useState([]);
-  const [fetchedImage, setFetchedImage] = useState(false);
-
-  const fetchSongData = async () => {
-    try {
-      const response = await fetch("https://sonic-api.onrender.com/api/songs");
-      const data = await response.json();
-      setMyLists(data);
-      setFetchedImage(true);
-    } catch (error) {
-      console.error("Error fetching the files list:", error);
-    }
-  };
-
-  const handleDelete = async (title) => {
-    try {
-      const response = await axios.delete(
-        `https://sonic-api.onrender.com/api/songs/${title}`
-      );
-      if (response.status === 200) {
-        fetchSongData();
-      }
-    } catch (error) {
-      console.error("There was an error deleting the song!", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchSongData();
-  }, []);
-
-  useEffect(() => {
-    if (!fetchedImage) return;
-
-    const fetchImageFiles = async () => {
-      try {
-        const imageSrcs = await Promise.all(
-          myLists.map(async (myList) => {
-            const response = await fetch(
-              `https://sonic-api.onrender.com/uploads/${cutFirstSevenCharacters(
-                myList.imagePath
-              )}`
-            );
-            const blob = await response.blob();
-            return URL.createObjectURL(blob);
-          })
-        );
-
-        const updatedLists = myLists.map((myList, index) => ({
-          ...myList,
-          imgSrc: imageSrcs[index],
-        }));
-
-        setMyLists(updatedLists);
-      } catch (error) {
-        console.error("Error fetching audio files:", error);
-      }
-    };
-
-    fetchImageFiles();
-  }, [fetchedImage]);
-
   const currentPlayingTitle = useSelector(
     (state) => state.currentPlayingSong.currentSongInfo.name
   );
@@ -271,56 +206,54 @@ const Uploader = () => {
     setSelectedImage(event.target.files[0]);
   };
 
-  const handleSuccessTimeout = () => {
-    setSuccessfulMsg("Song uploaded successfully");
-    setIsPostClicked(false);
-    setTimeout(() => {
-      setSuccessfulMsg("");
-    }, 3000);
+  const [myLists, setMyLists] = useState([]);
+  const { data, loading, error } = useSelector((state) => state.userSong);
+  const { userImages } = useSelector((state) => state.userImages);
+
+  const [showSucessMsg, setShowSucessMsg] = useState(false);
+  const [showErrMsg, setShowErrMsg] = useState(false);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(fetchUserImagesRequest(data));
+    }
+  }, [data, dispatch]);
+
+  useEffect(() => {
+    setMyLists(userImages);
+  }, [userImages]);
+
+  // handle delete songs from db
+  const handleDelete = async (audioFileName, imageFileName) => {
+    dispatch(deleteSongRequest([audioFileName, imageFileName]));
   };
 
-  const handleErrMsgTimeout = () => {
-    setErrMsg("All Fields Are Required!!");
-    setTimeout(() => {
-      setErrMsg("");
-    }, 3000);
-  };
-
+  // handling post request when submitting formData
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!title || !singer || !selectedImage || !selectedFile) {
+      setShowErrMsg(true);
+      setTimeout(() => {
+        setShowErrMsg(false);
+      }, 3000);
+      return;
+    }
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("singer", singer);
+    formData.append("imageFileName", selectedImage.name);
+    formData.append("audioFileName", selectedFile.name);
     formData.append("song", selectedFile);
     formData.append("image", selectedImage);
 
-    try {
-      const response = await axios.post(
-        "https://sonic-api.onrender.com/api/songs",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log("Song uploaded successfully:", response.data);
-      fetchSongData();
-      handleSuccessTimeout();
-      setTitle("");
-      setSinger("");
-      setSelectedFile(null);
-      setSelectedImage(null);
-    } catch (error) {
-      console.error("Error uploading song:", error);
-      handleErrMsgTimeout();
-    }
+    setIsPostClicked(true);
+    dispatch(postSongRequest(formData));
+    setTitle("");
+    setSinger("");
+    setSelectedFile(null);
+    setSelectedImage(null);
   };
-
-  useEffect(() => {
-    fetchSongData();
-  }, []);
 
   const myListCont = css`
     justify-content: flex-start;
@@ -437,12 +370,14 @@ const Uploader = () => {
     const element = document.getElementsByClassName(
       "react-jinke-music-player-main"
     )[0];
+    const switchElement = document.getElementsByClassName("theme-switch")[0];
 
     if (element && !isPlaying) {
       element.style.visibility = "hidden";
+      switchElement.style.display = "none";
     } else if (element && isPlaying) {
       element.style.visibility = "visible";
-      console.log("ppppppppppppppppp");
+      switchElement.style.display = "initial";
     }
   }, [isPlaying]);
 
@@ -479,29 +414,40 @@ const Uploader = () => {
     setOpenedMenuIndex(openedMenuIndex === index ? null : index);
   };
 
-  const postClickHandler = () => {
-    setIsPostClicked(true);
-    if (successfulMsg !== "") {
-      setIsPostClicked(false);
+  useEffect(() => {
+    if (isPostClicked && !loading) {
+      if (error) {
+        setShowErrMsg(true);
+        setTimeout(() => {
+          setShowErrMsg(false);
+        }, 3000);
+      } else {
+        setShowSucessMsg(true);
+        setTimeout(() => {
+          setShowSucessMsg(false);
+        }, 3000);
+      }
+      setIsPostClicked(false); // Resetting the post clicked status
     }
-  };
+  }, [loading, error, isPostClicked, showSucessMsg, showErrMsg]);
 
   return (
     <div css={uploadCont}>
       <div>
         <Header />
-        {successfulMsg !== "" ? (
+        {showSucessMsg && (
           <div css={successMsgCont}>
             <img src="check.png" alt="" />
-            <p>{successfulMsg}</p>
+            <p>Song uploaded successfully</p>
           </div>
-        ) : null}
-        {errMsg !== "" ? (
+        )}
+
+        {showErrMsg && (
           <div css={errMsgCont}>
             <i class="fa-solid fa-circle-xmark"></i>
-            <p>{errMsg}</p>
+            <p>All Fields Are Required!!</p>
           </div>
-        ) : null}
+        )}
         <form css={form} onSubmit={handleSubmit}>
           <div css={inputCont}>
             <label>
@@ -543,8 +489,8 @@ const Uploader = () => {
               <p>{truncateTrackName(selectedImage.name, 20)}</p>
             ) : null}
           </label>
-          <Button onClick={postClickHandler} type="submit" variant="contained">
-            {isPostClicked && (errMsg || successfulMsg) === "" ? (
+          <Button type="submit" variant="contained">
+            {isPostClicked && (error || loading) ? (
               <p>loading...</p>
             ) : (
               "Post You Song"
@@ -553,6 +499,7 @@ const Uploader = () => {
         </form>
         <div css={myListCont}>
           <h1>My Favorite Songs</h1>
+
           {myLists && myLists.length > 0 ? (
             myLists.map((mySong, index) => (
               <div css={myListTrack} key={index}>
@@ -571,12 +518,8 @@ const Uploader = () => {
                         name: mySong.title,
                         singer: mySong.singer,
                         albumName: "",
-                        cover: `https://sonic-api.onrender.com/uploads/${cutFirstSevenCharacters(
-                          mySong.imagePath
-                        )}`,
-                        musicSrc: `https://sonic-api.onrender.com/uploads/${cutFirstSevenCharacters(
-                          mySong.songPath
-                        )}`,
+                        cover: `http://localhost:3001/file/${mySong.imageFileName}`,
+                        musicSrc: `http://localhost:3001/file/${mySong.audioFileName}`,
                         duration: "4:00",
                       })
                     }
@@ -595,13 +538,17 @@ const Uploader = () => {
                     <p onClick={() => handleDotMenuClick(index)}>...</p>
                     <p
                       onClick={() => {
-                        handleDelete(mySong.title);
+                        handleDelete(
+                          mySong.audioFileName,
+                          mySong.imageFileName
+                        );
                       }}
                       style={{
                         display: openedMenuIndex === index ? "initial" : "none",
                       }}
                     >
-                      Remove
+                      {!loading && !error && "Remove"}
+                      {loading && "Loading..."}
                     </p>
                   </div>
                 </div>
