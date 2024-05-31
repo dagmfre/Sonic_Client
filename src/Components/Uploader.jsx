@@ -549,6 +549,7 @@ const Uploader = () => {
                     >
                       {!loading && !error && "Remove"}
                       {loading && "Loading..."}
+                      {error && "error..."}
                     </p>
                   </div>
                 </div>
