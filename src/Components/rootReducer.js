@@ -4,6 +4,8 @@ import favoriteListReducer from "./favoriteListSlice";
 import isMenuClickedReducer from "./menuClickSlice";
 import artistSlice from "./artistSlice";
 import topAlbumReducer from "./topAlbumSlice";
+import tracksReducer from "./tracksSlice";
+import userSongSlice from "./userSongSlice";
 
 const rootReducer = combineReducers({
   currentPlayingSong: currentPlayingReducer,
@@ -11,6 +13,8 @@ const rootReducer = combineReducers({
   menuClickedStatus: isMenuClickedReducer,
   topAlbum: topAlbumReducer,
   artists: artistSlice,
+  tracks: tracksReducer,
+  userSong: userSongSlice,
 });
 
 export default rootReducer;

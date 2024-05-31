@@ -46,7 +46,6 @@ export default function MyFavorite() {
       element.style.visibility = "hidden";
     } else if (element && isPlaying) {
       element.style.visibility = "visible";
-      console.log("ppppppppppppppppp");
     }
   }, [isPlaying]);
 
