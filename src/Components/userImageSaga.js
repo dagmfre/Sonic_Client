@@ -6,7 +6,7 @@ import {
 // import axios from "axios";
 
 function* fetchUserImage(myList) {
-  const response = yield call(fetch, `https://sonic-server.vercel.app/file/${myList.imageFileName}`);
+  const response = yield call(fetch, `https://sonic-api.onrender.com/file/${myList.imageFileName}`);
   const blob = yield call([response, 'blob']); // call method on response object
   return URL.createObjectURL(blob);
 }

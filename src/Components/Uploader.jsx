@@ -518,8 +518,8 @@ const Uploader = () => {
                         name: mySong.title,
                         singer: mySong.singer,
                         albumName: "",
-                        cover: `https://sonic-server.vercel.app/file/${mySong.imageFileName}`,
-                        musicSrc: `https://sonic-server.vercel.app/file/${mySong.audioFileName}`,
+                        cover: `https://sonic-api.onrender.com/file/${mySong.imageFileName}`,
+                        musicSrc: `https://sonic-api.onrender.com/file/${mySong.audioFileName}`,
                         duration: "4:00",
                       })
                     }
