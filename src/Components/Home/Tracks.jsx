@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { addCurrentPlayingSong } from "../currentPlayingSlice";
 import { addRemoveFavoriteSong } from "../favoriteListSlice";
@@ -9,12 +8,11 @@ import "pure-react-carousel/dist/react-carousel.es.css";
 import "react-jinke-music-player/assets/index.css";
 import Artist from "./Artist";
 import TracksLoader from "../TracksLoader";
+import { fetchTracksRequest } from "../tracksSlice";
 
 export default function Tracks() {
-  const [topTracks, setTopTracks] = useState([]);
   const dispatch = useDispatch();
-  const [isLoading1, setIsLoading1] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
   const [visibleTracks, setVisibleTracks] = useState(3);
 
   const recentSongs = useSelector(
@@ -222,26 +220,17 @@ export default function Tracks() {
     }
   }
 
-  useEffect(() => {
-    const fetchAlbumTracks = async () => {
-      try {
-        const response = await axios.get("https://sonic-api.onrender.com/api/tracks");
-        // Show all tracks if window width is 1200px or more
-        setTopTracks(response.data?.reverse());
-        setIsLoading1(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const { tracks, loading, error } = useSelector((state) => state.tracks);
 
-    fetchAlbumTracks();
-  }, []);
+  useEffect(() => {
+    dispatch(fetchTracksRequest());
+  }, [dispatch]);
 
   const loadMoreTracks = () => {
-    setIsLoading(true);
+    setIsLoadMoreClicked(true);
     setTimeout(() => {
       setVisibleTracks((prevVisibleTracks) => prevVisibleTracks + 1);
-      setIsLoading(false);
+      setIsLoadMoreClicked(false);
     }, 3000);
   };
 
@@ -332,7 +321,7 @@ export default function Tracks() {
         <div id="tracks" css={trendAlbumCont}>
           <h1>Trending Songs</h1>
 
-          {isLoading1 ? (
+          {loading ? (
             <div css={loaderCont}>
               <TracksLoader />
               <TracksLoader />
@@ -344,8 +333,8 @@ export default function Tracks() {
               <TracksLoader />
             </div>
           ) : (
-            topTracks &&
-            topTracks.slice(0, visibleTracks).map((topTrack, index) => (
+            tracks &&
+            tracks.slice(0, visibleTracks).map((topTrack, index) => (
               <>
                 {topTrack.data
                   ?.slice(0, visibleTracks)
@@ -417,7 +406,7 @@ export default function Tracks() {
             ))
           )}
 
-          {isLoading && (
+          {isLoadMoreClicked && (
             <div css={loaderCont}>
               <TracksLoader />
               <TracksLoader />
@@ -425,13 +414,16 @@ export default function Tracks() {
               <TracksLoader />
             </div>
           )}
-          {!isLoading && visibleTracks < topTracks.length && (
+
+          {!isLoadMoreClicked && visibleTracks < tracks.length && (
             <button onClick={loadMoreTracks}>
               <p>Load More Tracks </p>
               <i class="fa-solid fa-angles-down"></i>
             </button>
           )}
+          
         </div>
+        {error && <h2>Error: {error}</h2>}{" "}
       </div>
     </>
   );
