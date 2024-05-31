@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { toggleMenuClick } from "../menuClickSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const breakpoints = [500, 768, 890];
 const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
@@ -24,6 +25,7 @@ const searchCont = css`
   max-width: 390px;
   width: 100%;
   flex: 1;
+  border-radius: 7px;
   border: 1px solid #484848a3;
   padding: revert-layer;
   padding-left: 10px;
@@ -34,7 +36,10 @@ const searchCont = css`
 `;
 
 const uploadCont = css`
+  text-decoration: none;
+  color: #303538;
   display: flex;
+  border-radius: 7px;
   align-items: center;
   max-width: 390px;
   width: 100%;
@@ -150,10 +155,10 @@ export default function Header() {
         <i className="fa-solid fa-magnifying-glass"></i>
         <p>Search Songs, Artists, Albums ...</p>
       </div>
-      <div onClick={() => dispatch(toggleMenuClick())} css={uploadCont}>
+      <Link to={"/upload"} css={uploadCont}>
         <i className="fa-solid fa-cloud-arrow-up"></i>
         <p>Upload Your Song</p>
-      </div>
+      </Link>
       <div css={accountCont}>
         <i css={userPic} className="fa-solid fa-user"></i>
         <div css={userNameCont}>

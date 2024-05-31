@@ -21,26 +21,27 @@ export default function Home() {
     const tracksComponent = document.getElementById("tracks");
     const artistsComponent = document.getElementById("artists");
 
-      if (tracksComponent && hash === "#tracks") {
-        tracksComponent.scrollIntoView({ behavior: "smooth" });
-      } else if (artistsComponent && hash === "#artists") {
-        artistsComponent.scrollIntoView({ behavior: "smooth" });
-      }
-
+    if (tracksComponent && hash === "#tracks") {
+      tracksComponent.scrollIntoView({ behavior: "smooth" });
+    } else if (artistsComponent && hash === "#artists") {
+      artistsComponent.scrollIntoView({ behavior: "smooth" });
+    }
   }, [hash]);
 
   useEffect(() => {
     const element = document.getElementsByClassName(
       "react-jinke-music-player-main"
     )[0];
+    const switchElement = document.getElementsByClassName("theme-switch")[0];
 
     if (element && !isPlaying) {
       element.style.visibility = "hidden";
+      switchElement.style.display = "none";
     } else if (element && isPlaying) {
       element.style.visibility = "visible";
-      console.log("ppppppppppppppppp");
+      switchElement.style.display = "initial";
     }
-  }, [ isPlaying]);
+  }, [isPlaying]);
 
   const audioInstance = useRef(null);
   useEffect(() => {
@@ -73,6 +74,7 @@ export default function Home() {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    flex: 75%;
   `;
 
   const handleAudioPlay = () => {

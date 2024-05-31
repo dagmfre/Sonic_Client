@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { useSelector, useDispatch } from "react-redux";
 import { addCurrentPlayingSong } from "../currentPlayingSlice";
@@ -56,8 +56,9 @@ export default function TopAlbum() {
 
   const bigAlbumImage = css`
     width: 100%;
-    max-width: 300px;
+    max-width: 330px;
     height: 100%;
+    border-radius: 15px;
     ${mq[3]} {
       display: none;
     }
@@ -184,6 +185,7 @@ export default function TopAlbum() {
     align-items: center;
     border: 2px solid #edeffa;
     padding-right: 1rem;
+    border-radius: 15px;
     > :nth-of-type(1) {
       display: flex;
       gap: 2rem;
@@ -263,7 +265,7 @@ export default function TopAlbum() {
     dispatch(fetchTopAlbumRequest());
   }, [dispatch]);
 
-  return ( 
+  return (
     <>
       {loading && (
         <div css={loaderCont}>
@@ -271,7 +273,7 @@ export default function TopAlbum() {
         </div>
       )}
 
-      {error && <p>Error: {error}</p>}
+      {error && <h2>Error: {error}</h2>}
 
       {album && (
         <CarouselProvider
@@ -311,7 +313,12 @@ export default function TopAlbum() {
                             />
                             <div>
                               <div css={topAlbumHeadingCont}>
-                                <h3>{artist.data[0].album.title}</h3>
+                                <h3>
+                                  {truncateTrackName(
+                                    artist.data[0].album.title,
+                                    17
+                                  )}
+                                </h3>
                                 <img
                                   src={artist.data[0].album.cover_medium}
                                   alt=""
