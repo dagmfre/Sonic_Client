@@ -52,6 +52,8 @@ export default function SideBar() {
     gap: 10px;
     text-decoration: none;
     color: #303538;
+    text-decoration: none;
+    color: rgb(48, 53, 56);
     img {
       max-width: 35px;
     }
@@ -210,7 +212,7 @@ export default function SideBar() {
         <Sidebar>
           <Menu>
             <MenuItem>
-              <div css={logoCont} className="logo-cont">
+              <Link css={logoCont} to="/" className="logo-cont">
                 <img src="logo.svg" alt="" />
                 <h1>SONIC</h1>
                 <div css={menu} onClick={() => dispatch(toggleMenuClick())}>
@@ -220,7 +222,7 @@ export default function SideBar() {
                     <i class="fa-solid fa-bars"></i>
                   )}
                 </div>
-              </div>
+              </Link>
             </MenuItem>
             <MenuItem>
               <div css={searchCont}>
