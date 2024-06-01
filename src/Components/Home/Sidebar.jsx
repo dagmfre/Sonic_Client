@@ -49,11 +49,17 @@ export default function SideBar() {
 
   const homeRouteCont = css`
     text-decoration: none;
-    color: rgb(48, 53, 56);
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   `
 
   const logoCont = css`
+    text-decoration: none;
+    color: inherit;
     display: flex;
+    align-items: center;
     gap: 10px;
     img {
       max-width: 35px;
