@@ -47,13 +47,14 @@ export default function SideBar() {
     }
   `;
 
+  const homeRouteCont = css`
+    text-decoration: none;
+    color: rgb(48, 53, 56);
+  `
+
   const logoCont = css`
     display: flex;
     gap: 10px;
-    text-decoration: none;
-    color: #303538;
-    text-decoration: none;
-    color: rgb(48, 53, 56);
     img {
       max-width: 35px;
     }
@@ -212,9 +213,13 @@ export default function SideBar() {
         <Sidebar>
           <Menu>
             <MenuItem>
-              <Link css={logoCont} to="/" className="logo-cont">
-                <img src="logo.svg" alt="" />
-                <h1>SONIC</h1>
+              <div css={logoCont} className="logo-cont">
+                <Link to="/" css={homeRouteCont}>
+                  <img src="logo.svg" alt="" />
+                </Link>
+                <Link to="/" css={homeRouteCont}>
+                  <h1>SONIC</h1>
+                </Link>
                 <div css={menu} onClick={() => dispatch(toggleMenuClick())}>
                   {isMenuClicked ? (
                     <i class="fa-solid fa-x"></i>
@@ -222,7 +227,7 @@ export default function SideBar() {
                     <i class="fa-solid fa-bars"></i>
                   )}
                 </div>
-              </Link>
+              </div>
             </MenuItem>
             <MenuItem>
               <div css={searchCont}>
