@@ -134,6 +134,8 @@ export default function SideBar() {
     align-items: center;
     max-width: 390px;
     width: 100%;
+    text-decoration: none;
+    color: rgb(48, 53, 56);
     border: 1px solid #484848a3;
     padding: 0 10px;
     gap: 10px;
@@ -227,10 +229,10 @@ export default function SideBar() {
               </div>
             </MenuItem>
             <MenuItem>
-              <div css={uploadCont}>
+              <Link to="/upload" css={uploadCont}>
                 <i className="fa-solid fa-cloud-arrow-up"></i>
                 <p>Upload Your Song</p>
-              </div>
+              </Link>
             </MenuItem>
             <MenuItem>
               <h3>Discover</h3>
