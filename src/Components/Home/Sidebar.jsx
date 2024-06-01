@@ -216,8 +216,6 @@ export default function SideBar() {
               <div css={logoCont} className="logo-cont">
                 <Link to="/" css={homeRouteCont}>
                   <img src="logo.svg" alt="" />
-                </Link>
-                <Link to="/" css={homeRouteCont}>
                   <h1>SONIC</h1>
                 </Link>
                 <div css={menu} onClick={() => dispatch(toggleMenuClick())}>
