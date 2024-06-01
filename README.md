@@ -16,4 +16,4 @@ A dynamic web application that fetches songs from the Deezer API, providing an e
   
 ##  USED TECHNOLOGIES
 - Front-end: **React.js, Redux, Redux-Toolkit, Redux-Saga, Emotion-js, Material-UI**
-- Back-end: **Node.js, Express.js, MongoDB, Mongoose, Axios**
+- Back-end: **Node.js, Express.js, Multer, MongoDB, Mongoose, Axios**
