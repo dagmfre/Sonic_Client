@@ -11,7 +11,7 @@ function* postSongSaga(action) {
   try {
     const response = yield call(
       axios.post,
-      "https://sonic-server-koyed-26491528.koyeb.app/api/songs",
+      "https://sonic-server.vercel.app/api/songs",
       action.payload,
       {
         headers: {
@@ -27,7 +27,7 @@ function* postSongSaga(action) {
 
 function* deleteSongSaga(action) {
   try {
-    yield call(axios.delete, `https://sonic-server-koyed-26491528.koyeb.app/file/${action.payload}`);
+    yield call(axios.delete, `https://sonic-server.vercel.app/file/${action.payload}`);
     yield put(deleteSongSuccess(action.payload[0]));
   } catch (error) {
     yield put(deleteSongFailure(error.message));

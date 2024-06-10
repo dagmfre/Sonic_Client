@@ -14,7 +14,7 @@ function* fetchTopAlbumSaga() {
   try {
     const response = yield call(
       axios.get,
-      "https://sonic-server-koyed-26491528.koyeb.app/api/topArtists"
+      "https://sonic-server.vercel.app/api/topArtists"
     );
     const shuffledData = fisherYatesShuffle(response.data);
     yield put(fetchTopAlbumSuccess(shuffledData));
