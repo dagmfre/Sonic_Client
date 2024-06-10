@@ -6,7 +6,7 @@ function* fetchTracksSaga() {
   try {
     const response = yield call(
       axios.get,
-      "https://sonic-api.onrender.com/api/tracks"
+      "https://sonic-server.vercel.app/api/tracks"
     );
     yield put(fetchTracksSuccess(response.data));
   } catch (error) {
