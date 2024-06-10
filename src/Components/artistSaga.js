@@ -9,7 +9,7 @@ function* fetchMusicSaga() {
   try {
     const response = yield call(
       axios.get,
-      "https://sonic-api.onrender.com/api/artists"
+      "https://sonic-server-koyed-26491528.koyeb.app/api/artists"
     );
     yield put(fetchArtistSuccess(response.data?.reverse()));
   } catch (error) {

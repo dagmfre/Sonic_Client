@@ -518,8 +518,8 @@ const Uploader = () => {
                         name: mySong.title,
                         singer: mySong.singer,
                         albumName: "",
-                        cover: `https://sonic-api.onrender.com/file/${mySong.imageFileName}`,
-                        musicSrc: `https://sonic-api.onrender.com/file/${mySong.audioFileName}`,
+                        cover: `https://sonic-server-koyed-26491528.koyeb.app/file/${mySong.imageFileName}`,
+                        musicSrc: `https://sonic-server-koyed-26491528.koyeb.app/file/${mySong.audioFileName}`,
                         duration: "4:00",
                       })
                     }
