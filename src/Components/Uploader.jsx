@@ -445,7 +445,7 @@ const Uploader = () => {
         {showErrMsg && (
           <div css={errMsgCont}>
             <i class="fa-solid fa-circle-xmark"></i>
-            <p>All Fields Are Required!!</p>
+            <p>Please ensure all fields are filled and files are under 4.5MB.</p>
           </div>
         )}
         <form css={form} onSubmit={handleSubmit}>
