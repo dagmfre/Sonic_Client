@@ -3,11 +3,13 @@ import axios from "axios";
 import { fetchTracksSuccess, fetchTracksFailure } from "./tracksSlice";
 
 function* fetchTracksSaga() {
+  const token = yield localStorage.getItem("token");;
   try {
-    const response = yield call(
-      axios.get,
-      "https://sonic-server.vercel.app/api/tracks"
-    );
+    const response = yield call(axios.get, "http://localhost:3001/api/tracks", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     yield put(fetchTracksSuccess(response.data));
   } catch (error) {
     yield put(fetchTracksFailure(error.message));
