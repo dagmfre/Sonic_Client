@@ -12,9 +12,15 @@ function fisherYatesShuffle(array) {
 
 function* fetchTopAlbumSaga() {
   try {
+    const token = yield localStorage.getItem("token");;
     const response = yield call(
       axios.get,
-      "https://sonic-server.vercel.app/api/topArtists"
+      "http://localhost:3001/api/topArtists",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     const shuffledData = fisherYatesShuffle(response.data);
     yield put(fetchTopAlbumSuccess(shuffledData));
