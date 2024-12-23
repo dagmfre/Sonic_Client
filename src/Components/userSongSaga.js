@@ -8,14 +8,16 @@ import {
 } from "./userSongSlice";
 
 function* postSongSaga(action) {
+  const token = yield localStorage.getItem("token");
   try {
     const response = yield call(
       axios.post,
-      "https://sonic-server.vercel.app/api/songs",
+      "http://localhost:3001/api/songs",
       action.payload,
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -27,7 +29,12 @@ function* postSongSaga(action) {
 
 function* deleteSongSaga(action) {
   try {
-    yield call(axios.delete, `https://sonic-server.vercel.app/file/${action.payload}`);
+    const token = yield localStorage.getItem("token");
+    yield call(axios.delete, `http://localhost:3001/file/${action.payload}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     yield put(deleteSongSuccess(action.payload[0]));
   } catch (error) {
     yield put(deleteSongFailure(error.message));
