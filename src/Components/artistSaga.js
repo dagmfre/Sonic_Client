@@ -1,17 +1,19 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 import { fetchArtistSuccess, fetchArtistFailure } from "./artistSlice";
+import Cookies from "js-cookie";
 
 function* fetchMusicSaga() {
   try {
-    const token = yield localStorage.getItem("token");
+    const token = Cookies.get("token");
     const response = yield call(
       axios.get,
       "http://localhost:3001/api/artists",
       {
-        headers: {
+         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true, 
       }
     );
     yield put(fetchArtistSuccess(response.data?.reverse()));
