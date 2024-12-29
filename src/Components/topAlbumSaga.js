@@ -16,7 +16,7 @@ function* fetchTopAlbumSaga() {
     const token = Cookies.get("token");
     const response = yield call(
       axios.get,
-      "http://localhost:3001/api/topArtists",
+      "https://sonic-server.onrender.com/api/topArtists",
       {
          headers: {
           Authorization: `Bearer ${token}`,

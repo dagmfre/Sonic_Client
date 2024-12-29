@@ -12,7 +12,7 @@ import Cookies from "js-cookie";
 function* postSongSaga(action) {
   const token = Cookies.get("token");
   try {
-    yield call(axios.post, "http://localhost:3001/api/songs", action.payload, {
+    yield call(axios.post, "https://sonic-server.onrender.com/api/songs", action.payload, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
@@ -28,7 +28,7 @@ function* postSongSaga(action) {
 function* deleteSongSaga(action) {
   try {
     const token = Cookies.get("token");
-    yield call(axios.delete, `http://localhost:3001/file/${action.payload}`, {
+    yield call(axios.delete, `https://sonic-server.onrender.com/file/${action.payload}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

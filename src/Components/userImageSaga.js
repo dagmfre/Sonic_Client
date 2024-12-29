@@ -10,7 +10,7 @@ function* fetchUserImage(myList) {
   const token = Cookies.get("token");
   const response = yield call(
     axios.get,
-    `http://localhost:3001/file/${myList.imageFileName}`,
+    `https://sonic-server.onrender.com/file/${myList.imageFileName}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

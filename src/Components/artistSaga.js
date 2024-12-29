@@ -8,7 +8,7 @@ function* fetchMusicSaga() {
     const token = Cookies.get("token");
     const response = yield call(
       axios.get,
-      "http://localhost:3001/api/artists",
+      "https://sonic-server.onrender.com/api/artists",
       {
         headers: {
           Authorization: `Bearer ${token}`,

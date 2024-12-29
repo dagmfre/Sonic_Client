@@ -212,7 +212,7 @@ export default function Header() {
             }}
           >
             <Button variant="contained" onClick={handleLoginClick}>
-              Login
+              Register
             </Button>
             <Button variant="contained" onClick={handleLogoutClick}>
               Logout

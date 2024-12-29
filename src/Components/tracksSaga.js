@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 function* fetchTracksSaga() {
   const token = Cookies.get("token");
   try {
-    const response = yield call(axios.get, "http://localhost:3001/api/tracks", {
+    const response = yield call(axios.get, "https://sonic-server.onrender.com/api/tracks", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

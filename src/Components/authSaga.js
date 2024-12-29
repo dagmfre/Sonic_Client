@@ -12,7 +12,7 @@ import {
   fetchUserFailure,
 } from "./authSlice";
 
-const API_URL = "http://localhost:3001";
+const API_URL = "https://sonic-server.onrender.com";
 
 function* loginSaga(action) {
   try {
