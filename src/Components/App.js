@@ -3,7 +3,9 @@ import Home from "./Home/Home";
 import { Global, css } from "@emotion/react";
 import MyFavorite from "./MyFavorite";
 import Uploader from "./Uploader";
-import Register from "./Register";
+import ProtectedRoute from "./ProtectedRoute";
+import Login from "./Home/Login.jsx";
+import Signup from "./Home/Signup.jsx";
 
 const globalStyles = css`
   body {
@@ -22,10 +24,19 @@ const App = () => {
     <>
       <Global styles={globalStyles} />
       <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/favorites" element={<MyFavorite />} />
         <Route path="/upload" element={<Uploader />} />
-        <Route path="/reg" element={<Register />} />
       </Routes>
     </>
   );
