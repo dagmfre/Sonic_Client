@@ -6,9 +6,10 @@ import {
   deleteSongSuccess,
   deleteSongFailure,
 } from "./userSongSlice";
+import Cookies from "js-cookie";
 
 function* postSongSaga(action) {
-  const token = yield localStorage.getItem("token");
+  const token = Cookies.get("token");
   try {
     const response = yield call(
       axios.post,
@@ -19,6 +20,7 @@ function* postSongSaga(action) {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       }
     );
     yield put(postSongSuccess(response.data));
@@ -29,7 +31,7 @@ function* postSongSaga(action) {
 
 function* deleteSongSaga(action) {
   try {
-    const token = yield localStorage.getItem("token");
+    const token = Cookies.get("token");
     yield call(axios.delete, `http://localhost:3001/file/${action.payload}`, {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -4,9 +4,10 @@ import {
   fetchUserImagesFailure,
 } from "./userImageSlice";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 function* fetchUserImage(myList) {
-  const token = yield localStorage.getItem("token");
+  const token = Cookies.get("token");
   const response = yield call(
     axios.get,
     `http://localhost:3001/file/${myList.imageFileName}`,
@@ -14,6 +15,7 @@ function* fetchUserImage(myList) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      withCredentials: true, 
     }
   );
   const blob = yield call([response, "blob"]); // call method on response object

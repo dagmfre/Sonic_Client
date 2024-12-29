@@ -7,8 +7,10 @@ import topAlbumReducer from "./topAlbumSlice";
 import tracksReducer from "./tracksSlice";
 import userSongReducer from "./userSongSlice";
 import userImageReducer from "./userImageSlice";
+import authReducer from "./authSlice";
 
 const rootReducer = combineReducers({
+  auth: authReducer,
   currentPlayingSong: currentPlayingReducer,
   favoriteList: favoriteListReducer,
   menuClickedStatus: isMenuClickedReducer,
