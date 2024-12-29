@@ -15,20 +15,22 @@ function* fetchUserImage(myList) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      responseType: 'blob', // Ensure the response is a blob
       withCredentials: true, 
     }
   );
-  const blob = yield call([response, "blob"]); // call method on response object
+  const blob = response.data; // Access the blob from response.data
   return URL.createObjectURL(blob);
 }
 
 function* fetchUserImages(action) {
   try {
     const data = action.payload;
+    
     const imageSrcs = yield all(
       data.map((myList) => call(fetchUserImage, myList))
     );
-
+    
     const updatedLists = data.map((myList, index) => ({
       ...myList,
       imgSrc: imageSrcs[index],

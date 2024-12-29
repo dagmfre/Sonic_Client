@@ -13,6 +13,8 @@ import { deleteSongRequest, postSongRequest } from "./userSongSlice";
 import { fetchUserImagesRequest } from "./userImageSlice";
 
 const Uploader = () => {
+  const deleteRef = useRef(null);
+
   const [title, setTitle] = useState("");
   const [singer, setSinger] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -184,6 +186,18 @@ const Uploader = () => {
     font-weight: 700;
   `;
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (deleteRef.current && !deleteRef.current.contains(event.target)) {
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [deleteRef]);
+
   const currentPlayingTitle = useSelector(
     (state) => state.currentPlayingSong.currentSongInfo.name
   );
@@ -207,17 +221,21 @@ const Uploader = () => {
   };
 
   const [myLists, setMyLists] = useState([]);
-  const { data, loading, error } = useSelector((state) => state.userSong);
+  const { deleteLoading, deleteError, deleteSuccess } = useSelector(
+    (state) => state.userSong
+  );
+  const { loading, error } = useSelector((state) => state.userSong);
+  const { user } = useSelector((state) => state.auth);
   const { userImages } = useSelector((state) => state.userImages);
 
   const [showSucessMsg, setShowSucessMsg] = useState(false);
   const [showErrMsg, setShowErrMsg] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      dispatch(fetchUserImagesRequest(data));
+    if (user?.uploadedSongs) {
+      dispatch(fetchUserImagesRequest(user?.uploadedSongs));
     }
-  }, [data, dispatch]);
+  }, [dispatch, user?.uploadedSongs]);
 
   useEffect(() => {
     setMyLists(userImages);
@@ -445,7 +463,9 @@ const Uploader = () => {
         {showErrMsg && (
           <div css={errMsgCont}>
             <i class="fa-solid fa-circle-xmark"></i>
-            <p>Please ensure all fields are filled and files are under 4.5MB.</p>
+            <p>
+              Please ensure all fields are filled and files are under 4.5MB.
+            </p>
           </div>
         )}
         <form css={form} onSubmit={handleSubmit}>
@@ -537,6 +557,7 @@ const Uploader = () => {
                   <div css={deleteCont}>
                     <p onClick={() => handleDotMenuClick(index)}>...</p>
                     <p
+                      ref={deleteRef}
                       onClick={() => {
                         handleDelete(
                           mySong.audioFileName,
@@ -547,9 +568,13 @@ const Uploader = () => {
                         display: openedMenuIndex === index ? "initial" : "none",
                       }}
                     >
-                      {!loading && !error && "Remove"}
-                      {loading && "Loading..."}
-                      {error && "error..."}
+                      {!deleteLoading &&
+                        !deleteError &&
+                        !deleteSuccess &&
+                        "Remove"}
+                      {deleteLoading && "Loading..."}
+                      {deleteError && "error..."}
+                      {deleteSuccess && "Successfully deleted!"}
                     </p>
                   </div>
                 </div>

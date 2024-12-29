@@ -7,6 +7,9 @@ import {
   signupRequest,
   signupSuccess,
   signupFailure,
+  fetchUserRequest,
+  fetchUserSuccess,
+  fetchUserFailure,
 } from "./authSlice";
 
 const API_URL = "http://localhost:3001";
@@ -47,7 +50,19 @@ function* signupSaga(action) {
   }
 }
 
+function* fetchUserSaga() {
+  try {
+    const response = yield call(axios.get, `${API_URL}/api/user`, {
+      withCredentials: true,
+    });
+    yield put(fetchUserSuccess(response.data));
+  } catch (error) {
+    yield put(fetchUserFailure(error.response?.data?.message || "Fetch user failed"));
+  }
+}
+
 export function* watchAuth() {
   yield takeLatest(loginRequest.type, loginSaga);
   yield takeLatest(signupRequest.type, signupSaga);
+  yield takeLatest(fetchUserRequest.type, fetchUserSaga);
 }

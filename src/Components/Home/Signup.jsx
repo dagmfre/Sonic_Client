@@ -1,22 +1,21 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Container,
-  Alert,
-} from "@mui/material";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Container, Box, Typography, TextField, Button, Alert, CircularProgress } from "@mui/material";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import { signupRequest } from "../authSlice";
+
+const validationSchema = yup.object({
+  username: yup.string().required("Username is required"),
+  email: yup.string().email("Enter a valid email").required("Email is required"),
+  password: yup.string().min(8, "Password should be of minimum 8 characters length").required("Password is required"),
+});
 
 const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error, success } = useSelector((state) => state.auth);
 
   const formik = useFormik({
     initialValues: {
@@ -24,17 +23,17 @@ const Signup = () => {
       email: "",
       password: "",
     },
-    validationSchema: Yup.object({
-      username: Yup.string().required("Required"),
-      email: Yup.string().email("Invalid email address").required("Required"),
-      password: Yup.string()
-        .min(6, "Must be at least 6 characters")
-        .required("Required"),
-    }),
+    validationSchema: validationSchema,
     onSubmit: (values) => {
       dispatch(signupRequest(values));
     },
   });
+
+  useEffect(() => {
+    if (success) {
+      navigate("/");
+    }
+  }, [success, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -50,6 +49,7 @@ const Signup = () => {
           Sign up
         </Typography>
         {error && <Alert severity="error">{error}</Alert>}
+        {success && <Alert severity="success">{success}</Alert>}
         <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -92,7 +92,7 @@ const Signup = () => {
             sx={{ mt: 3, mb: 2 }}
             disabled={loading}
           >
-            {loading ? "Signing up..." : "Sign Up"}
+            {loading ? <CircularProgress size={24} /> : "Sign Up"}
           </Button>
           <Button fullWidth variant="text" onClick={() => navigate("/login")}>
             Already have an account? Sign In
@@ -104,3 +104,4 @@ const Signup = () => {
 };
 
 export default Signup;
+

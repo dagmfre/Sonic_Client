@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Home/Home";
 import { Global, css } from "@emotion/react";
@@ -6,6 +7,8 @@ import Uploader from "./Uploader";
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Home/Login.jsx";
 import Signup from "./Home/Signup.jsx";
+import { useDispatch } from "react-redux";
+import { fetchUserRequest } from "./authSlice.js";
 
 const globalStyles = css`
   body {
@@ -20,6 +23,12 @@ const globalStyles = css`
 `;
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUserRequest());
+  }, [dispatch]);
+
   return (
     <>
       <Global styles={globalStyles} />
@@ -32,11 +41,24 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedRoute>
+              <MyFavorite />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/upload"
+          element={
+            <ProtectedRoute>
+              <Uploader />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/favorites" element={<MyFavorite />} />
-        <Route path="/upload" element={<Uploader />} />
       </Routes>
     </>
   );

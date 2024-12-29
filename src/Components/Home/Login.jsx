@@ -1,36 +1,52 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
+  Container,
   Box,
+  Typography,
   TextField,
   Button,
-  Typography,
-  Container,
   Alert,
+  CircularProgress,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import { loginRequest } from "../authSlice";
+
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
+});
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error, success } = useSelector((state) => state.auth);
+  console.log(success);
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    validationSchema: Yup.object({
-      email: Yup.string().email("Invalid email address").required("Required"),
-      password: Yup.string().required("Required"),
-    }),
+    validationSchema: validationSchema,
     onSubmit: (values) => {
       dispatch(loginRequest(values));
     },
   });
+
+  useEffect(() => {
+    if (success) {
+      navigate("/");
+    }
+  }, [success, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -46,6 +62,7 @@ const Login = () => {
           Sign in
         </Typography>
         {error && <Alert severity="error">{error}</Alert>}
+        {success && <Alert severity="success">{success}</Alert>}
         <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -77,7 +94,7 @@ const Login = () => {
             sx={{ mt: 3, mb: 2 }}
             disabled={loading}
           >
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? <CircularProgress size={24} /> : "Sign In"}
           </Button>
           <Button fullWidth variant="text" onClick={() => navigate("/signup")}>
             Don't have an account? Sign Up

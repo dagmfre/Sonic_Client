@@ -26,6 +26,8 @@ const persistConfig = {
     "topAlbum",
     "tracks",
     "userImages",
+    "userSong",
+    "auth",
   ],
 };
 

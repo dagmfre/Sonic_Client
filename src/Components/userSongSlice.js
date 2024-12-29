@@ -4,35 +4,36 @@ const userSongSlice = createSlice({
   name: "userSong",
   initialState: {
     loading: false,
-    data: [],
     error: null,
+    deleteLoading: false,
+    deleteError: null,
+    deleteSuccess: false, 
   },
   reducers: {
     postSongRequest(state) {
       state.loading = true;
       state.error = null;
     },
-    postSongSuccess(state, action) {
+    postSongSuccess(state) {
       state.loading = false;
-      state.data.push(action.payload);
     },
     postSongFailure(state, action) {
       state.loading = false;
       state.error = action.payload;
     },
     deleteSongRequest(state) {
-      state.loading = true;
-      state.error = null;
+      state.deleteLoading = true;
+      state.deleteError = null;
+      state.deleteSuccess = false; // Reset deleteSuccess on request
     },
     deleteSongSuccess(state, action) {
-      state.loading = false;
-      state.data = state.data.filter(
-        (song) => song.audioFileName !== action.payload
-      );
+      state.deleteLoading = false;
+      state.deleteSuccess = true; // Set deleteSuccess on success
     },
     deleteSongFailure(state, action) {
-      state.loading = false;
-      state.error = action.payload;
+      state.deleteLoading = false;
+      state.deleteError = action.payload;
+      state.deleteSuccess = false; // Ensure deleteSuccess is false on failure
     },
   },
 });

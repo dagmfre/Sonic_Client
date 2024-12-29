@@ -6,29 +6,25 @@ import {
   deleteSongSuccess,
   deleteSongFailure,
 } from "./userSongSlice";
+import { fetchUserRequest } from "./authSlice";
 import Cookies from "js-cookie";
 
 function* postSongSaga(action) {
   const token = Cookies.get("token");
   try {
-    const response = yield call(
-      axios.post,
-      "http://localhost:3001/api/songs",
-      action.payload,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      }
-    );
-    yield put(postSongSuccess(response.data));
+    yield call(axios.post, "http://localhost:3001/api/songs", action.payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+    yield put(postSongSuccess());
+    yield put(fetchUserRequest());
   } catch (error) {
     yield put(postSongFailure(error.message));
   }
 }
-
 function* deleteSongSaga(action) {
   try {
     const token = Cookies.get("token");
@@ -36,8 +32,10 @@ function* deleteSongSaga(action) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     });
     yield put(deleteSongSuccess(action.payload[0]));
+    yield put(fetchUserRequest());
   } catch (error) {
     yield put(deleteSongFailure(error.message));
   }

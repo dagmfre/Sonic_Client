@@ -10,10 +10,10 @@ function* fetchMusicSaga() {
       axios.get,
       "http://localhost:3001/api/artists",
       {
-         headers: {
+        headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true, 
+        withCredentials: true,
       }
     );
     yield put(fetchArtistSuccess(response.data?.reverse()));
