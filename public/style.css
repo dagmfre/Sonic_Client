@@ -130,3 +130,8 @@ iframe {
 .grabbing {
   cursor: grabbing;
 }
+
+.btn-cont {
+  display: flex;
+  flex-direction: row-reverse;
+}
