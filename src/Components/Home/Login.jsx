@@ -9,10 +9,12 @@ import {
   Button,
   Alert,
   CircularProgress,
+  IconButton,
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { loginRequest } from "../authSlice";
+import { loginRequest, clearMessages } from "../authSlice";
 
 const validationSchema = yup.object({
   email: yup
@@ -29,7 +31,15 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error, success } = useSelector((state) => state.auth);
-  console.log(success);
+
+  useEffect(() => {
+    if (error || success) {
+      const timer = setTimeout(() => {
+        dispatch(clearMessages());
+      }, 30000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, success, dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -41,12 +51,6 @@ const Login = () => {
       dispatch(loginRequest(values));
     },
   });
-
-  useEffect(() => {
-    if (success) {
-      navigate("/");
-    }
-  }, [success, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -96,9 +100,18 @@ const Login = () => {
           >
             {loading ? <CircularProgress size={24} /> : "Sign In"}
           </Button>
-          <Button fullWidth variant="text" onClick={() => navigate("/signup")}>
-            Don't have an account? Sign Up
-          </Button>
+          <div className="btn-cont">
+            <Button
+              fullWidth
+              variant="text"
+              onClick={() => navigate("/signup")}
+            >
+              Don't have an account? Sign Up
+            </Button>
+            <IconButton onClick={() => navigate(-1)}>
+              <ArrowBackIcon />
+            </IconButton>
+          </div>
         </Box>
       </Box>
     </Container>

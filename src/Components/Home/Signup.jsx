@@ -1,15 +1,31 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Container, Box, Typography, TextField, Button, Alert, CircularProgress } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Alert,
+  CircularProgress,
+  IconButton,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { signupRequest } from "../authSlice";
 
 const validationSchema = yup.object({
   username: yup.string().required("Username is required"),
-  email: yup.string().email("Enter a valid email").required("Email is required"),
-  password: yup.string().min(8, "Password should be of minimum 8 characters length").required("Password is required"),
+  email: yup
+    .string()
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
 });
 
 const Signup = () => {
@@ -28,12 +44,6 @@ const Signup = () => {
       dispatch(signupRequest(values));
     },
   });
-
-  useEffect(() => {
-    if (success) {
-      navigate("/");
-    }
-  }, [success, navigate]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -94,9 +104,14 @@ const Signup = () => {
           >
             {loading ? <CircularProgress size={24} /> : "Sign Up"}
           </Button>
-          <Button fullWidth variant="text" onClick={() => navigate("/login")}>
-            Already have an account? Sign In
-          </Button>
+          <div className="btn-cont">
+            <Button fullWidth variant="text" onClick={() => navigate("/login")}>
+              Already have an account? Sign In
+            </Button>
+            <IconButton onClick={() => navigate(-1)}>
+              <ArrowBackIcon />
+            </IconButton>
+          </div>
         </Box>
       </Box>
     </Container>
@@ -104,4 +119,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
