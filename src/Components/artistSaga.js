@@ -4,14 +4,14 @@ import { fetchArtistSuccess, fetchArtistFailure } from "./artistSlice";
 
 function* fetchMusicSaga() {
   try {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const response = yield call(
       axios.get,
       "https://sonic-server.onrender.com/api/artists",
       {
         headers: {
           Authorization: `Bearer ${token}`,
-        }
+        },
       }
     );
     yield put(fetchArtistSuccess(response.data?.reverse()));
