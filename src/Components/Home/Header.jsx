@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
-import Cookies from "js-cookie";
 
 const breakpoints = [500, 768, 890];
 const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
@@ -159,7 +158,7 @@ export default function Header() {
   };
 
   const handleLogoutClick = () => {
-    Cookies.remove("token");
+    localStorage.removeItem("token");
     navigate("/login");
   };
 

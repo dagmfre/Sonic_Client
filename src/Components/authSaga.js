@@ -19,10 +19,11 @@ function* loginSaga(action) {
     const response = yield call(
       axios.post,
       `${API_URL}/login`,
-      action.payload,
-      { withCredentials: true }
+      action.payload
     );
     if (response.data.success) {
+      // Store token in localStorage
+      localStorage.setItem('token', response.data.token);
       yield put(loginSuccess(response.data.user));
     } else {
       yield put(loginFailure(response.data.message));
@@ -37,10 +38,11 @@ function* signupSaga(action) {
     const response = yield call(
       axios.post,
       `${API_URL}/register`,
-      action.payload,
-      { withCredentials: true }
+      action.payload
     );
     if (response.data.success) {
+      // Store token in localStorage
+      localStorage.setItem('token', response.data.token);
       yield put(signupSuccess(response.data.user));
     } else {
       yield put(signupFailure(response.data.message));
@@ -52,8 +54,11 @@ function* signupSaga(action) {
 
 function* fetchUserSaga() {
   try {
+    const token = localStorage.getItem('token');
     const response = yield call(axios.get, `${API_URL}/api/user`, {
-      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
     });
     yield put(fetchUserSuccess(response.data));
   } catch (error) {

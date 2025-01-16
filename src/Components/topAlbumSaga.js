@@ -1,7 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 import { fetchTopAlbumFailure, fetchTopAlbumSuccess } from "./topAlbumSlice";
-import Cookies from "js-cookie";
 
 function fisherYatesShuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -13,15 +12,14 @@ function fisherYatesShuffle(array) {
 
 function* fetchTopAlbumSaga() {
   try {
-    const token = Cookies.get("token");
+    const token = localStorage.getItem('token');
     const response = yield call(
       axios.get,
       "https://sonic-server.onrender.com/api/topArtists",
       {
-         headers: {
+        headers: {
           Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true, 
+        }
       }
     );
     const shuffledData = fisherYatesShuffle(response.data);

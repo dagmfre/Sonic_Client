@@ -7,33 +7,40 @@ import {
   deleteSongFailure,
 } from "./userSongSlice";
 import { fetchUserRequest } from "./authSlice";
-import Cookies from "js-cookie";
 
 function* postSongSaga(action) {
-  const token = Cookies.get("token");
+  const token = localStorage.getItem('token');
   try {
-    yield call(axios.post, "https://sonic-server.onrender.com/api/songs", action.payload, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
-    });
+    yield call(
+      axios.post, 
+      "https://sonic-server.onrender.com/api/songs", 
+      action.payload, 
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    );
     yield put(postSongSuccess());
     yield put(fetchUserRequest());
   } catch (error) {
     yield put(postSongFailure(error.message));
   }
 }
+
 function* deleteSongSaga(action) {
   try {
-    const token = Cookies.get("token");
-    yield call(axios.delete, `https://sonic-server.onrender.com/file/${action.payload}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
-    });
+    const token = localStorage.getItem('token');
+    yield call(
+      axios.delete, 
+      `https://sonic-server.onrender.com/file/${action.payload}`, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    );
     yield put(deleteSongSuccess(action.payload[0]));
     yield put(fetchUserRequest());
   } catch (error) {

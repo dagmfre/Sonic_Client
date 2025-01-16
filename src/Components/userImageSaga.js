@@ -4,10 +4,9 @@ import {
   fetchUserImagesFailure,
 } from "./userImageSlice";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 function* fetchUserImage(myList) {
-  const token = Cookies.get("token");
+  const token = localStorage.getItem('token');
   const response = yield call(
     axios.get,
     `https://sonic-server.onrender.com/file/${myList.imageFileName}`,
@@ -15,11 +14,10 @@ function* fetchUserImage(myList) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      responseType: 'blob', // Ensure the response is a blob
-      withCredentials: true, 
+      responseType: 'blob',
     }
   );
-  const blob = response.data; // Access the blob from response.data
+  const blob = response.data;
   return URL.createObjectURL(blob);
 }
 
