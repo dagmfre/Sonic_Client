@@ -33,22 +33,8 @@ const App = () => {
     <>
       <Global styles={globalStyles} />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/favorites"
-          element={
-            <ProtectedRoute>
-              <MyFavorite />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<Home />} />
+        <Route path="/favorites" element={<MyFavorite />} />
         <Route
           path="/upload"
           element={
