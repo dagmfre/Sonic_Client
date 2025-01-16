@@ -14,7 +14,7 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { loginRequest, clearMessages } from "../authSlice";
+import { loginRequest } from "../authSlice";
 
 const validationSchema = yup.object({
   email: yup
@@ -31,15 +31,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, error, success } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (error || success) {
-      const timer = setTimeout(() => {
-        dispatch(clearMessages());
-      }, 30000);
-      return () => clearTimeout(timer);
-    }
-  }, [error, success, dispatch]);
 
   const formik = useFormik({
     initialValues: {
