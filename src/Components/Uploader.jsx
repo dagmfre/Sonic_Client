@@ -231,6 +231,19 @@ const Uploader = () => {
   const [showSucessMsg, setShowSucessMsg] = useState(false);
   const [showErrMsg, setShowErrMsg] = useState(false);
 
+  const [message, setMessage] = useState("Remove");
+
+  useEffect(() => {
+    let timer;
+    if (deleteSuccess || deleteError) {
+      setMessage(deleteSuccess ? "Deleted!" : "error...");
+      timer = setTimeout(() => {
+        setMessage("Remove");
+      }, 20000);
+    }
+    return () => clearTimeout(timer);
+  }, [deleteSuccess, deleteError]);
+
   useEffect(() => {
     if (user?.uploadedSongs) {
       dispatch(fetchUserImagesRequest(user?.uploadedSongs));
@@ -568,27 +581,7 @@ const Uploader = () => {
                         display: openedMenuIndex === index ? "initial" : "none",
                       }}
                     >
-                      {!deleteLoading &&
-                        !deleteError &&
-                        !deleteSuccess &&
-                        "Remove"}
-                      {deleteLoading && "Loading..."}
-                      {deleteError && (
-                        <>
-                          error...
-                          {setTimeout(() => {
-                            handleDotMenuClick(null);
-                          }, 20000)}
-                        </>
-                      )}
-                      {deleteSuccess && (
-                        <>
-                          Deleted!
-                          {setTimeout(() => {
-                            handleDotMenuClick(null);
-                          }, 20000)}
-                        </>
-                      )}
+                      {deleteLoading ? "Loading..." : message}
                     </p>
                   </div>
                 </div>
