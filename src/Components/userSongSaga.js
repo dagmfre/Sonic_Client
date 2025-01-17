@@ -10,10 +10,12 @@ import { fetchUserRequest } from "./authSlice";
 
 function* postSongSaga(action) {
   const token = localStorage.getItem('token');
+  console.log(action.payload);
+  
   try {
     yield call(
       axios.post, 
-      "https://sonic-server.onrender.com/api/songs", 
+      "http://localhost:3001/api/songs", 
       action.payload, 
       {
         headers: {
@@ -34,7 +36,7 @@ function* deleteSongSaga(action) {
     const token = localStorage.getItem('token');
     yield call(
       axios.delete, 
-      `https://sonic-server.onrender.com/file/${action.payload}`, 
+      `http://localhost:3001/file/${action.payload}`, 
       {
         headers: {
           Authorization: `Bearer ${token}`,
