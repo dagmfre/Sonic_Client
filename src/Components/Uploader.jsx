@@ -239,7 +239,7 @@ const Uploader = () => {
       setMessage(deleteSuccess ? "Deleted!" : "error...");
       timer = setTimeout(() => {
         setMessage("Remove");
-      }, 20000);
+      }, 3000);
     }
     return () => clearTimeout(timer);
   }, [deleteSuccess, deleteError]);
