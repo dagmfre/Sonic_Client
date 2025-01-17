@@ -574,7 +574,7 @@ const Uploader = () => {
                         "Remove"}
                       {deleteLoading && "Loading..."}
                       {deleteError && "error..."}
-                      {deleteSuccess && "Successfully deleted!"}
+                      {deleteSuccess && "Deleted!"}
                     </p>
                   </div>
                 </div>
