@@ -15,7 +15,7 @@ function* postSongSaga(action) {
   try {
     yield call(
       axios.post, 
-      "http://localhost:3001/api/songs", 
+      "https://sonic-server.onrender.com/api/songs", 
       action.payload, 
       {
         headers: {
@@ -36,7 +36,7 @@ function* deleteSongSaga(action) {
     const token = localStorage.getItem('token');
     yield call(
       axios.delete, 
-      `http://localhost:3001/file/${action.payload}`, 
+      `https://sonic-server.onrender.com/file/${action.payload}`, 
       {
         headers: {
           Authorization: `Bearer ${token}`,
