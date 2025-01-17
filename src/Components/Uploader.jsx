@@ -573,8 +573,22 @@ const Uploader = () => {
                         !deleteSuccess &&
                         "Remove"}
                       {deleteLoading && "Loading..."}
-                      {deleteError && "error..."}
-                      {deleteSuccess && "Deleted!"}
+                      {deleteError && (
+                        <>
+                          error...
+                          {setTimeout(() => {
+                            handleDotMenuClick(null);
+                          }, 20000)}
+                        </>
+                      )}
+                      {deleteSuccess && (
+                        <>
+                          Deleted!
+                          {setTimeout(() => {
+                            handleDotMenuClick(null);
+                          }, 20000)}
+                        </>
+                      )}
                     </p>
                   </div>
                 </div>
