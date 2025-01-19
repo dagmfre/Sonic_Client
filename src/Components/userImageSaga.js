@@ -9,7 +9,7 @@ function* fetchUserImage(myList) {
   const token = localStorage.getItem('token');
   const response = yield call(
     axios.get,
-    `https://sonic-server.onrender.com/file/${myList.imageFileName}`,
+    `https://sonic-server.vercel.app/file/${myList.imageFileName}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

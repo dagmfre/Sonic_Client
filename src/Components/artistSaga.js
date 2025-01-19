@@ -7,7 +7,7 @@ function* fetchMusicSaga() {
     const token = localStorage.getItem("token");
     const response = yield call(
       axios.get,
-      "https://sonic-server.onrender.com/api/artists",
+      "https://sonic-server.vercel.app/api/artists",
       {
         headers: {
           Authorization: `Bearer ${token}`,

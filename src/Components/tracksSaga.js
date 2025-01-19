@@ -5,7 +5,7 @@ import { fetchTracksSuccess, fetchTracksFailure } from "./tracksSlice";
 function* fetchTracksSaga() {
   const token = localStorage.getItem('token');
   try {
-    const response = yield call(axios.get, "https://sonic-server.onrender.com/api/tracks", {
+    const response = yield call(axios.get, "https://sonic-server.vercel.app/api/tracks", {
       headers: {
         Authorization: `Bearer ${token}`,
       }

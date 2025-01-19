@@ -15,7 +15,7 @@ function* fetchTopAlbumSaga() {
     const token = localStorage.getItem('token');
     const response = yield call(
       axios.get,
-      "https://sonic-server.onrender.com/api/topArtists",
+      "https://sonic-server.vercel.app/api/topArtists",
       {
         headers: {
           Authorization: `Bearer ${token}`,

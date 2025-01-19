@@ -15,7 +15,7 @@ function* postSongSaga(action) {
   try {
     yield call(
       axios.post, 
-      "https://sonic-server.onrender.com/api/songs", 
+      "https://sonic-server.vercel.app/api/songs", 
       action.payload, 
       {
         headers: {
@@ -36,7 +36,7 @@ function* deleteSongSaga(action) {
     const token = localStorage.getItem('token');
     yield call(
       axios.delete, 
-      `https://sonic-server.onrender.com/file/${action.payload}`, 
+      `https://sonic-server.vercel.app/file/${action.payload}`, 
       {
         headers: {
           Authorization: `Bearer ${token}`,

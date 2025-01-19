@@ -12,7 +12,7 @@ import {
   fetchUserFailure,
 } from "./authSlice";
 
-const API_URL = "https://sonic-server.onrender.com";
+const API_URL = "https://sonic-server.vercel.app";
 
 function* loginSaga(action) {
   try {
