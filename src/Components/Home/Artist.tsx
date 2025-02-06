@@ -57,7 +57,7 @@ export default function Artist(): any {
       {artists && artists.length !== 0 && (
         <div css={artistsCont}>
           <h1>Top Artists</h1>
-          {artists.map((artist) => (
+          {artists.map((artist: any) => (
             <div css={artist} key={artist.id}>
               <h2>{artist.name}</h2>
               <img
