@@ -8,7 +8,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Home/Login";
 import Signup from "./Home/Signup";
 import { useDispatch } from "react-redux";
-import { fetchUserRequest } from "./authSlice.js";
+import { fetchUserRequest } from "./authSlice";
 
 const globalStyles = css`
   body {

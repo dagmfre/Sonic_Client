@@ -418,7 +418,7 @@ export default function Tracks(): any {
           {!isLoadMoreClicked && visibleTracks < tracks.length && (
             <button onClick={loadMoreTracks}>
               <p>Load More Tracks </p>
-              <i class="fa-solid fa-angles-down"></i>
+              <i className="fa-solid fa-angles-down"></i>
             </button>
           )}
           

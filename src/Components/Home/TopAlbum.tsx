@@ -280,14 +280,13 @@ export default function TopAlbum(): any {
           naturalSlideWidth={100}
           naturalSlideHeight={125}
           totalSlides={10}
-          classNameAnimation
           isPlaying
           interval={4000}
         >
           <Slider>
             {album &&
               album.map((artist, artistIndex) => (
-                <Slide>
+                <Slide index={artistIndex}>
                   <div
                     key={artistIndex}
                     css={topAlbumCont}

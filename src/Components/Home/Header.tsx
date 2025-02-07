@@ -169,9 +169,9 @@ const Header: any = () => {
     >
       <div onClick={() => dispatch(toggleMenuClick())} css={menu}>
         {isMenuClicked ? (
-          <i class="fa-solid fa-x"></i>
+          <i className="fa-solid fa-x"></i>
         ) : (
-          <i class="fa-solid fa-bars"></i>
+          <i className="fa-solid fa-bars"></i>
         )}
       </div>
 

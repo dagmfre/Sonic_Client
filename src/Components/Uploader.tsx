@@ -475,7 +475,7 @@ const Uploader: any = () => {
 
         {showErrMsg && (
           <div css={errMsgCont}>
-            <i class="fa-solid fa-circle-xmark"></i>
+            <i className="fa-solid fa-circle-xmark"></i>
             <p>
               Please ensure all fields are filled and files are under 4.5MB.
             </p>
@@ -602,7 +602,6 @@ const Uploader: any = () => {
             getAudioInstance={(instance) => {
               audioInstance.current = instance;
             }}
-            duration={30}
             audioLists={[currentSongInfo]}
             defaultPosition={{ bottom: 0 }}
             clearPriorAudioLists

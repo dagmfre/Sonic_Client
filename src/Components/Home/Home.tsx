@@ -110,7 +110,6 @@ export default function Home(): any {
                 getAudioInstance={(instance) => {
                   audioInstance.current = instance;
                 }}
-                duration={30}
                 audioLists={[currentSongInfo]}
                 defaultPosition={{ bottom: 0 }}
                 clearPriorAudioLists

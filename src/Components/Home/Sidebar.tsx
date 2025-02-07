@@ -184,7 +184,7 @@ export default function SideBar(): any {
         <div css={sidebarMenu}>
           <h1 className="sidebar-menu-topic">Discover</h1>
           <a href={location.pathname === "/" ? "#" : "/"}>
-            <i class="fa-solid fa-house"></i>
+            <i className="fa-solid fa-house"></i>
             <h1>Home</h1>
           </a>
           <a href={location.pathname === "/" ? "#artists" : "/#artists"}>
@@ -199,11 +199,11 @@ export default function SideBar(): any {
         <div css={[sidebarMenu, libraryCont]} className="library-cont">
           <h1 className="sidebar-menu-topic">Library</h1>
           <Link to="/favorites">
-            <i class="fa-regular fa-clock"></i>
+            <i className="fa-regular fa-clock"></i>
             <h1>My favorite</h1>
           </Link>
           <Link to={"/upload"}>
-            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <i className="fa-solid fa-cloud-arrow-up"></i>
             <h1>My list</h1>
           </Link>
         </div>
@@ -226,9 +226,9 @@ export default function SideBar(): any {
                 </Link>
                 <div css={menu} onClick={() => dispatch(toggleMenuClick())}>
                   {isMenuClicked ? (
-                    <i class="fa-solid fa-x"></i>
+                    <i className="fa-solid fa-x"></i>
                   ) : (
-                    <i class="fa-solid fa-bars"></i>
+                    <i className="fa-solid fa-bars"></i>
                   )}
                 </div>
               </div>
@@ -250,7 +250,7 @@ export default function SideBar(): any {
             </MenuItem>
             <MenuItem>
               <a href={location.pathname === "/" ? "#" : "/"}>
-                <i class="fa-solid fa-house"></i>
+                <i className="fa-solid fa-house"></i>
                 <h1>Home</h1>
               </a>
             </MenuItem>
@@ -271,13 +271,13 @@ export default function SideBar(): any {
             </MenuItem>
             <MenuItem>
               <Link to="/favorites">
-                <i class="fa-regular fa-clock"></i>
+                <i className="fa-regular fa-clock"></i>
                 <h1>My favorite</h1>
               </Link>
             </MenuItem>
             <MenuItem>
               <Link to={"/upload"}>
-                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <i className="fa-solid fa-cloud-arrow-up"></i>
                 <h1>My list</h1>
               </Link>
             </MenuItem>
